@@ -1,8 +1,8 @@
 <?php
-
+require_once "function.php";
 //Recuperation des arguments
 $args = $_SERVER['argv'];
-if(count($args) == 1)
+if(!isset($args[1]))
 {
     printf("
         # Ajouter une list
@@ -31,12 +31,19 @@ if(count($args) == 1)
     switch($args[1])
     {
         case "add" :
-            if(isset($args[2]) && !empty($args[2]))
+            //Verifiation de l'existence de la description de la tache
+            if(!isset($args[2]) || empty($args[2]))
             {
-
-            }else{
-                printf("Veillez entrer le nom de la tache");
+                printf("la description de la tache manquante");
+                die;
             }
+
+            if(isset($args[3]))
+            {
+                printf("Trop d'arguments utilisé pour cette commande");
+                die;
+            }
+            add($args[2]);
             break;
         case "update" :
             break;
@@ -47,15 +54,11 @@ if(count($args) == 1)
         case "mark-done" :
             break;
         case "list" :
+            listTask();
             break;
         default :
             printf("Cette commande n'existe pas");
     }
-}
-
-function add(String $name)
-{
-    echo "add a new list";
 }
 
 function update(int $id, String $name)
@@ -74,11 +77,6 @@ function makeProgresse($id)
 }
 
 function makeDone($id)
-{
-
-}
-
-function listTask(String $status = "")
 {
 
 }
