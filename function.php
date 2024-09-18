@@ -138,7 +138,7 @@ function mark(int $id,String $status)
 
     if($exists)
     {
-        printf("Tache modifié avec succès");
+        printf("Tache modifiée avec succès");
     }else{
         printf("La tache que vous recherchez n'existe pas");
     }
@@ -175,7 +175,47 @@ function update(int $id,String $description)
 
     if($exists)
     {
-        printf("Tache modifié avec succès");
+        printf("Tache modifiée avec succès");
+    }else{
+        printf("La tache que vous recherchez n'existe pas");
+    }
+}
+
+function delete(int $id)
+{
+    $exists = false;
+    //Recuperation du fichier
+    if(file_exists("task.json"))
+    {
+        $json = file_get_contents("task.json");
+        $array = json_decode($json);
+        $position = 0;
+        //parcours
+        foreach($array as $task)
+        {
+            $position += 1;
+            if($task-> id == $id)
+            {
+                $exists = true;
+                break;
+            }
+        }
+        if($exists)
+        {
+            array_splice($array,$position - 1,1);
+            $json = json_encode($array);
+            $json = str_replace("[","[\n\t",$json);
+            $json = str_replace("{","{\n\t\t",$json);
+            $json = str_replace(",\"",",\n\t\t\"",$json);
+            $json = str_replace("},{","\n\t},\n\t{",$json);
+            $json = str_replace("}]","\n\t}\n]",$json);
+            file_put_contents("task.json",$json);
+        }
+    }
+
+    if($exists)
+    {
+        printf("Tache supprimée avec succès");
     }else{
         printf("La tache que vous recherchez n'existe pas");
     }

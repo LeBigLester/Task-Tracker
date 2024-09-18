@@ -49,7 +49,7 @@ if (!isset($args[1])) {
 
             //Verificatin de l'existence de l'id
             if (!isset($args[2]) || empty($args[2])) {
-                printf("L'identifiant de tache est manquante");
+                printf("L'identifiant de la tache est manquante");
                 die;
             }
 
@@ -61,6 +61,17 @@ if (!isset($args[1])) {
             update($args[2], $args[3]);
             break;
         case "delete":
+            //Verification de l'existence d'un 3e argument
+            if (isset($args[3])) {
+                printf("Trop d'arguments utilisé pour cette commande");
+                die;
+            }
+            //Verificatin de l'existence de l'id
+            if (!isset($args[2]) || empty($args[2])) {
+                printf("L'identifiant de la tache est manquante");
+                die;
+            }
+            delete($args[2]);
             break;
         case "mark-in-progress":
             //Verification de l'existence d'un 3e argument
@@ -70,7 +81,7 @@ if (!isset($args[1])) {
             }
             //Verificatin de l'existence de l'id
             if (!isset($args[2]) || empty($args[2])) {
-                printf("L'identifiant de tache est manquante");
+                printf("L'identifiant de la tache est manquante");
                 die;
             }
             mark($args[2], "in-progress");
@@ -83,7 +94,7 @@ if (!isset($args[1])) {
             }
             //Verificatin de l'existence de l'id
             if (!isset($args[2]) || empty($args[2])) {
-                printf("L'identifiant de tache est manquante");
+                printf("L'identifiant de la tache est manquante");
                 die;
             }
             mark($args[2], "done");
