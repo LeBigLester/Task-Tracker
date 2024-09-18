@@ -31,16 +31,15 @@ if(!isset($args[1]))
     switch($args[1])
     {
         case "add" :
+            if(isset($args[3]))
+            {
+                printf("Trop d'arguments utilisé pour cette commande");
+                die;
+            }
             //Verifiation de l'existence de la description de la tache
             if(!isset($args[2]) || empty($args[2]))
             {
                 printf("la description de la tache manquante");
-                die;
-            }
-
-            if(isset($args[3]))
-            {
-                printf("Trop d'arguments utilisé pour cette commande");
                 die;
             }
             add($args[2]);
@@ -50,8 +49,34 @@ if(!isset($args[1]))
         case "delete" :
             break;
         case "mark-in-progress" :
+            //Verification de l'existence d'un 3e argument
+            if(isset($args[3]))
+            {
+                printf("Trop d'arguments utilisé pour cette commande");
+                die;
+            }
+            //Verificatin de l'existence de l'id
+            if(!isset($args[2]) || empty($args[2]))
+            {
+                printf("L'identifiant de lache est manquante");
+                die;
+            }
+            mark($args[2],"in-progress");
             break;
         case "mark-done" :
+             //Verification de l'existence d'un 3e argument
+             if(isset($args[3]))
+             {
+                 printf("Trop d'arguments utilisé pour cette commande");
+                 die;
+             }
+             //Verificatin de l'existence de l'id
+             if(!isset($args[2]) || empty($args[2]))
+             {
+                 printf("L'identifiant de lache est manquante");
+                 die;
+             }
+             mark($args[2],"done");
             break;
         case "list" :
             listTask();
@@ -69,15 +94,5 @@ function update(int $id, String $name)
 function delete(int $id)
 {
     echo "delete list";
-}
-
-function makeProgresse($id)
-{
-
-}
-
-function makeDone($id)
-{
-
 }
 ?>

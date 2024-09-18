@@ -49,28 +49,98 @@ function add(String $description)
 function listTask(String $status = "")
 {
     $json = file_get_contents("task.json");
+    $array = json_decode($json);
     switch ($status)
     {
         case "to-do" :
+            foreach($array as $task)
+            {
+                if($task->status == "to-do")
+                printf('
+                    ID : '. $task->id .'
+                    Description : '. $task->description . '
+                    status : ' . $task->status . '
+                    created_at : '. $task->created_at . '
+                    updated_at : '. $task->updated_at .'
+                ');
+            }
             break;
-        case "in-progresse" :
+        case "in-progress" :
+            foreach($array as $task)
+            {
+                if($task->status == "in-progress")
+                printf('
+                    ID : '. $task->id .'
+                    Description : '. $task->description . '
+                    status : ' . $task->status . '
+                    created_at : '. $task->created_at . '
+                    updated_at : '. $task->updated_at .'
+                ');
+            }
             break;
         case "done" : 
+            foreach($array as $task)
+            {
+                if($task->status == "done")
+                printf('
+                    ID : '. $task->id .'
+                    Description : '. $task->description . '
+                    status : ' . $task->status . '
+                    created_at : '. $task->created_at . '
+                    updated_at : '. $task->updated_at .'
+                ');
+            }
             break;
         default :
-            
+        foreach($array as $task)
+        {
+            printf('
+                ID : '. $task->id .'
+                Description : '. $task->description . '
+                status : ' . $task->status . '
+                created_at : '. $task->created_at . '
+                updated_at : '. $task->updated_at .'
+            ');
+        }
             break;
     }
-    $array = json_decode($json);
-    foreach($array as $task)
+   
+}
+
+function mark(int $id,String $status)
+{
+    $exists = false;
+    //Recuperation du fichier
+    if(file_exists("task.json"))
     {
-        printf('
-            ID : '. $task->id .'
-            Description : '. $task->description . '
-            status : ' . $task->status . '
-            created_at : '. $task->created_at . '
-            updated_at : '. $task->updated_at .'
-        ');
+        $json = file_get_contents("task.json");
+        $array = json_decode($json);
+        //parcours
+        foreach($array as $task)
+        {
+            if($task-> id == $id)
+            {
+                $exists = true;
+                $task->status = $status;
+            }
+        }
+        if($exists)
+        {
+            $json = json_encode($array);
+            $json = str_replace("[","[\n\t",$json);
+            $json = str_replace("{","{\n\t\t",$json);
+            $json = str_replace(",\"",",\n\t\t\"",$json);
+            $json = str_replace("},{","\n\t},\n\t{",$json);
+            $json = str_replace("}]","\n\t}\n]",$json);
+            file_put_contents("task.json",$json);
+        }
+    }
+
+    if($exists)
+    {
+        printf("Tache modifié avec succès");
+    }else{
+        printf("La tache que vous recherchez n'existe pas");
     }
 }
 ?>
