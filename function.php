@@ -13,7 +13,7 @@ function add(String $description)
         $json = "   ,{
         \"id\" : " . $id .",
         \"description\" : \"" . $description . "\",
-        \"status\" : \"to do\", 
+        \"status\" : \"todo\", 
         \"created_at\" : \" "  . $date->format("d/m/y:H/i/s") . " \",
         \"updated_at\" : \" "  . $date->format("d/m/y:H/i/s") . " \"
     }";
@@ -31,7 +31,7 @@ function add(String $description)
     {
         \"id\" : 1,
         \"description\" : \"" . $description . "\",
-        \"status\" : \"to do\", 
+        \"status\" : \"todo\", 
         \"created_at\" : \" "  . $date->format("d/m/y:H/i/s") . " \",
         \"updated_at\" : \" "  . $date->format("d/m/y:H/i/s") . " \"
     }
@@ -52,10 +52,10 @@ function listTask(String $status = "")
     $array = json_decode($json);
     switch ($status)
     {
-        case "to-do" :
+        case "todo" :
             foreach($array as $task)
             {
-                if($task->status == "to-do")
+                if($task->status == "todo")
                 printf('
                     ID : '. $task->id .'
                     Description : '. $task->description . '

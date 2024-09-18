@@ -79,20 +79,36 @@ if(!isset($args[1]))
              mark($args[2],"done");
             break;
         case "list" :
+            //Verification de l'existence d'un 3e argument
+            if(isset($args[3]))
+            {
+                printf("Trop d'arguments utilisé pour cette commande");
+                die;
+            }
+            //Verificatin de l'existence de l'id
+            if(isset($args[2]) || !empty($args[2]))
+            {
+                switch($args[2])
+                {
+                    case "todo" :
+                        listTask("todo");
+                        break;
+                    case "in-progress" :
+                        listTask("in-progress");
+                        break;
+                    case "done" :
+                        listTask("done");
+                        break;
+                    default :
+                        printf("Cet argument n'existe pas");
+                        break;
+                }
+                die;
+            }
             listTask();
             break;
         default :
             printf("Cette commande n'existe pas");
     }
-}
-
-function update(int $id, String $name)
-{
-    echo "update list";
-}
-
-function delete(int $id)
-{
-    echo "delete list";
 }
 ?>
