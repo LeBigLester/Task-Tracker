@@ -2,8 +2,7 @@
 require_once "function.php";
 //Recuperation des arguments
 $args = $_SERVER['argv'];
-if(!isset($args[1]))
-{
+if (!isset($args[1])) {
     printf("
         # Ajouter une list
         task-cli add [nom de la list]
@@ -27,79 +26,87 @@ if(!isset($args[1]))
         task-cli list in-progress
         
         ");
-}else{
-    switch($args[1])
-    {
-        case "add" :
-            if(isset($args[3]))
-            {
+} else {
+    switch ($args[1]) {
+        case "add":
+            if (isset($args[3])) {
                 printf("Trop d'arguments utilisé pour cette commande");
                 die;
             }
             //Verifiation de l'existence de la description de la tache
-            if(!isset($args[2]) || empty($args[2]))
-            {
+            if (!isset($args[2]) || empty($args[2])) {
                 printf("la description de la tache manquante");
                 die;
             }
             add($args[2]);
             break;
-        case "update" :
-            break;
-        case "delete" :
-            break;
-        case "mark-in-progress" :
+        case "update":
             //Verification de l'existence d'un 3e argument
-            if(isset($args[3]))
-            {
+            if (isset($args[4])) {
+                printf("Trop d'arguments utilisé pour cette commande");
+                die;
+            }
+
+            //Verificatin de l'existence de l'id
+            if (!isset($args[2]) || empty($args[2])) {
+                printf("L'identifiant de tache est manquante");
+                die;
+            }
+
+            //Verification de l'existence de la description
+            if (!isset($args[3]) || empty($args[3])) {
+                printf("La description de la tache est manquante");
+                die;
+            }
+            update($args[2], $args[3]);
+            break;
+        case "delete":
+            break;
+        case "mark-in-progress":
+            //Verification de l'existence d'un 3e argument
+            if (isset($args[3])) {
                 printf("Trop d'arguments utilisé pour cette commande");
                 die;
             }
             //Verificatin de l'existence de l'id
-            if(!isset($args[2]) || empty($args[2]))
-            {
-                printf("L'identifiant de lache est manquante");
+            if (!isset($args[2]) || empty($args[2])) {
+                printf("L'identifiant de tache est manquante");
                 die;
             }
-            mark($args[2],"in-progress");
+            mark($args[2], "in-progress");
             break;
-        case "mark-done" :
-             //Verification de l'existence d'un 3e argument
-             if(isset($args[3]))
-             {
-                 printf("Trop d'arguments utilisé pour cette commande");
-                 die;
-             }
-             //Verificatin de l'existence de l'id
-             if(!isset($args[2]) || empty($args[2]))
-             {
-                 printf("L'identifiant de lache est manquante");
-                 die;
-             }
-             mark($args[2],"done");
-            break;
-        case "list" :
+        case "mark-done":
             //Verification de l'existence d'un 3e argument
-            if(isset($args[3]))
-            {
+            if (isset($args[3])) {
                 printf("Trop d'arguments utilisé pour cette commande");
                 die;
             }
             //Verificatin de l'existence de l'id
-            if(isset($args[2]) || !empty($args[2]))
-            {
-                switch($args[2])
-                {
-                    case "todo" :
+            if (!isset($args[2]) || empty($args[2])) {
+                printf("L'identifiant de tache est manquante");
+                die;
+            }
+            mark($args[2], "done");
+            break;
+        case "list":
+            //Verification de l'existence d'un 3e argument
+            if (isset($args[3])) {
+                printf("Trop d'arguments utilisé pour cette commande");
+                die;
+            }
+            //Verificatin de l'existence de l'id
+            if (isset($args[2]) || !empty($args[2])) {
+                switch ($args[2]) {
+                    case "todo":
                         listTask("todo");
                         break;
-                    case "in-progress" :
+                    case "in-progress":
                         listTask("in-progress");
                         break;
-                    case "done" :
+                    case "done":
                         listTask("done");
                         break;
-                    default :
+                    default:
                         printf("Cet argument n'existe pas");
                         break;
                 }
@@ -107,8 +114,7 @@ if(!isset($args[1]))
             }
             listTask();
             break;
-        default :
+        default:
             printf("Cette commande n'existe pas");
     }
 }
-?>

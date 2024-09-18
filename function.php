@@ -143,4 +143,41 @@ function mark(int $id,String $status)
         printf("La tache que vous recherchez n'existe pas");
     }
 }
+
+function update(int $id,String $description)
+{
+    $exists = false;
+    //Recuperation du fichier
+    if(file_exists("task.json"))
+    {
+        $json = file_get_contents("task.json");
+        $array = json_decode($json);
+        //parcours
+        foreach($array as $task)
+        {
+            if($task-> id == $id)
+            {
+                $exists = true;
+                $task->description = $description;
+            }
+        }
+        if($exists)
+        {
+            $json = json_encode($array);
+            $json = str_replace("[","[\n\t",$json);
+            $json = str_replace("{","{\n\t\t",$json);
+            $json = str_replace(",\"",",\n\t\t\"",$json);
+            $json = str_replace("},{","\n\t},\n\t{",$json);
+            $json = str_replace("}]","\n\t}\n]",$json);
+            file_put_contents("task.json",$json);
+        }
+    }
+
+    if($exists)
+    {
+        printf("Tache modifié avec succès");
+    }else{
+        printf("La tache que vous recherchez n'existe pas");
+    }
+}
 ?>
